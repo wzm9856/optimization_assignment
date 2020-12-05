@@ -8,8 +8,9 @@ alpha=@(p) p'*p/(p'*G*p);                       %步长 pg等效 防止混淆就换个字母 
 x = 0;
 y = 0;
 p_history = [x; y];
+q_history = q(0,0);                           %最优值历史 用于算收敛因子
 while 1
-    if norm([x; y]-[5; 6])<0.1
+    if norm([x; y]-[5; 6])<1e-1
         break;
     end
     g_now=reshape(g(x, y),2,1);
@@ -17,5 +18,10 @@ while 1
     temp = [x; y] - g_now*alpha_now;
     x = temp(1); y = temp(2);
     p_history = [p_history [x; y]];
+    q_history = [q_history q(x,y)];
 end
 
+draw_contour(q,p_history);
+q_history_1 = [inf q_history(1:end-1)];
+q_min = min(q_history);
+F = max((q_history-q_min)./(q_history_1-q_min));
