@@ -10,10 +10,10 @@ function []=draw_contour(q,p_history,contour_num,margin_mul)
     %   图
     
     % draw_contour(q,point_history);
-    if(nargin<3)
+    if ~exist('contour_num','var') || isempty('contour_num')
         contour_num=50;
     end
-    if(nargin<4)
+    if~exist('margin_mul','var') || isempty('margin_mul')
         margin_mul=2;
     end
     
@@ -23,10 +23,13 @@ function []=draw_contour(q,p_history,contour_num,margin_mul)
     length = max(ymax-ymin,xmax-xmin)*margin_mul; %留白多少是根据(最大-最小)*倍数
     xmid=(xmax+xmin)/2; ymid=(ymax+ymin)/2;
     interval = length/200;                 %200可调，看图想画多密，但是就为了画个等值线也没必要太密吧
-    a = xmid-length/2:interval:xmid+length/2;
+    a = xmid-length/2:interval:xmid+length/2; %5_8_2调这个
     b = ymid-length/2:interval:ymid+length/2;
+%     a = 0.001:interval:75; %5_8_2调这个 ctrl+r ctrl+t
+%     b = 0.001:interval:100;
     [agrid, bgrid] = meshgrid(a,b);
     c = q(agrid, bgrid);
+    c((imag(c)~=0)|(c>=inf&c<=inf))=0;
     contour(agrid,bgrid,c,contour_num);
     hold on;
     

@@ -1,5 +1,5 @@
-% 不用线搜索的牛顿法
-close all;
+% 用线搜索的牛顿法
+close all;clear;
 check = @(x,y) (x>0&&y>0&&(x+y)<100&&(x-y)<50);
 x = 10; y = 20;
 p_history = [x; y];
@@ -8,20 +8,28 @@ q = str2func(['q_mu' '0'*(mu==0.1) '1']);   %就替代了下面两个q函数
 
 g_now = 100;
 while norm(g_now)>1e-6
+    q_now = q(x,y);
     g_now = g(x,y,mu);
     G_now = G(x,y,mu);
     s = -G_now^(-1)*g_now;
+    
+    x_new = x + s(1); y_new = y + s(2);
+    while 1
+        q_new = q(x_new,y_new);
+        armijo = q_now+0.01*g_now'*s;           %armijo中的rho
+        if ~check(x_new,y_new)||(armijo<=q_new)
+            s = s*0.1;                          %armijo中的gamma
+        else
+            break;
+        end
+        x_new = x + s(1); y_new = y + s(2);
+    end
+    
     x = x + s(1); y = y + s(2);
     p_history = [p_history [x; y]];
-    if ~check(x,y)
-        disp('迭代点离开定义域');
-        disp(x);disp(y);
-        p_history = p_history(:,1:end-1);
-        break;
-    end
 end
 
-draw_contour(q, p_history);
+draw_contour(q, p_history, 20);
 
 function gg = g(x,y,mu)
     g1 = -9-mu*(-1/(100-x-y)+1/x-1/(50-x+y));
