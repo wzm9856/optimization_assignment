@@ -21,7 +21,7 @@ while 1
     q_history = [q_history q(x,y)];
 end
 
-draw_contour(q,p_history);
+draw_contour(q,p_history,100);
 q_history_1 = [inf q_history(1:end-1)];
 q_min = min(q_history);
 F = max((q_history-q_min)./(q_history_1-q_min));

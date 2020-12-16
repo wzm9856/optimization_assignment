@@ -4,13 +4,7 @@ G=@(x,y) ([2-400*y+1200*x*x -400*x*y;-400*x*y 200]);
 x=[1.2;1.2];
 rho=0.0001;
 point_history=x;
-a=0.5:0.01:1.5;
-a = repmat(a,101,1);
-b=0.5:0.01:1.5;
-b = repmat(b,101,1)';
-c=(1-a).^2+100*(b-a.^2).^2;
-contour(a,b,c,50);
-hold on;
+
 while 1
     alpha = 1;
     q_now = q(x(1),x(2));
@@ -32,4 +26,5 @@ while 1
         break;
     end
 end
-scatter(point_history(1,:),point_history(2,:),10);
+
+draw_contour(q,point_history);

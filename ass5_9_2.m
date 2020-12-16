@@ -1,16 +1,10 @@
-q=@(x,y) (1-x)*(1-x)+100*(y-x*x)^2;
-g=@(x,y) ([2*(x-1)-400*x*(y-x*x); 200*(y-x*x)]);
-G=@(x,y) ([2-400*y+1200*x*x -400*x;-400*x 200]);
+q=@(x,y) (1-x).*(1-x)+100*(y-x.*x).^2;
+g=@(x,y) ([2*(x-1)-400.*x.*(y-x.*x); 200*(y-x.*x)]);
+G=@(x,y) ([2-400*y+1200*x.*x -400*x;-400*x 200]);
 x=[1.2;1.2];
 rho=0.0001;
-point_history=[x;0;0;1];
-a=0.5:0.01:1.5;
-a = repmat(a,101,1);
-b=0.5:0.01:1.5;
-b = repmat(b,101,1)';
-c=(1-a).^2+100*(b-a.^2).^2;
-contour(a,b,c,50);
-hold on;
+point_history = x;
+
 while 1
     G_now = G(x(1),x(2));
     q_now = q(x(1),x(2));
@@ -19,7 +13,7 @@ while 1
     if f==0 %¾ØÕóÕý¶¨
         s=-inv(G_now)*g_now;
         x = x + s;
-        point_history = [point_history [x;1;0;0]];
+        point_history = [point_history x];
         if norm(x-[1;1])<0.001
             break;
         end
@@ -38,9 +32,10 @@ while 1
         alpha = alpha * 0.1;
     end
     x = x_new;
-    point_history = [point_history [x;0;1;0]];
+    point_history = [point_history x];
     if norm(x-[1;1])<0.001
         break;
     end
 end
-scatter(point_history(1,:),point_history(2,:),10,point_history(3:5,:)');
+
+draw_contour(q,point_history);

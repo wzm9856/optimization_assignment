@@ -36,4 +36,5 @@ function []=draw_contour(q,p_history,contour_num,margin_mul)
     % »­³öµü´úµã¹ì¼£
     scatter(p_history(1,:),p_history(2,:),20,colormap(cool(size(p_history,2))),'filled')
     colormap default;
+    plot(p_history(1,:),p_history(2,:),'-');
 end

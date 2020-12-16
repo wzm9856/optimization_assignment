@@ -4,7 +4,7 @@ q = @(x) 9*x-4*log(x-7);
 g = @(x) 9-4*(x-7).^-1;
 G = @(x) 4*(x-7).^-2;
 
-x = 7.1;
+x = 7.8;
 p_history = x;
 g_now = 10;
 while abs(g_now)>1e-6
@@ -24,4 +24,5 @@ a = max([(min(p_history)-0.1) 7]):0.01:(max(p_history)+0.1);
 plot(a,q(a));
 hold on;
 scatter(p_history, q(p_history));
+plot(p_history, q(p_history),'-');
 % plot(p_history, q(p_history));

@@ -1,3 +1,4 @@
+close all; clear;
 n=8;
 a=1:n;b=a';
 a=repmat(a,n,1);
