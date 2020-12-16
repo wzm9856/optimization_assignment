@@ -1,12 +1,17 @@
 % 用线搜索的牛顿法
 close all;clear;
 check = @(x,y) (x>0&&y>0&&(x+y)<100&&(x-y)<50);
-x = 1; y = 40;
+data = [8 1 15 10; 90 40 68.69 20];
+datanum = 4;                              %方便选择第几组数据
+x = data(1,datanum); y = data(2,datanum);
 p_history = [x; y];
-mu = 0.1;                                   %mu可取0.1或1
-q = str2func(['q_mu' '0'*(mu==0.1) '1']);   %就替代了下面两个q函数
+mu = 1;                                   %mu可取0.1或1
+if mu == 0.1
+    q = @q_mu01;
+else
+    q = @q_mu1;
+end                                         %q就替代了下面两个q***函数
 
-g_now = 100;
 while 1
     q_now = q(x,y);
     g_now = g(x,y,mu);
@@ -18,11 +23,17 @@ while 1
     
     x_new = x + s(1); y_new = y + s(2);
     while 1
+        if x_new>0.5&&x_new<0.52
+            adspfad=1;
+        end
         q_new = q(x_new,y_new);
         armijo = q_now+0.01*g_now'*s;           %0.01 armijo中的rho
         if ~check(x_new,y_new)||(armijo<=q_new)
             s = s*0.1;                          %armijo中的gamma
         else
+            break;
+        end
+        if norm(s)<1e-10
             break;
         end
         x_new = x + s(1); y_new = y + s(2);

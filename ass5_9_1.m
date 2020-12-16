@@ -1,7 +1,9 @@
 q=@(x,y) (1-x).*(1-x)+100*(y-x.*x).^2;
 g=@(x,y) ([2*(x-1)-400*x*(y-x*x); 200*(y-x*x)]);
 G=@(x,y) ([2-400*y+1200*x*x -400*x*y;-400*x*y 200]);
-x=[1.2;1.2];
+data = [1.2 -1.2;1.2 1];
+datanum = 2;                              %方便选择第几组数据
+x = data(:,datanum);
 rho=0.0001;
 point_history=x;
 
@@ -22,6 +24,9 @@ while 1
     end
     x = x_new;
     point_history = [point_history x];
+%     if length(point_history)==160||length(point_history)==161
+%         asdfadsfasdf=1;
+%     end
     if norm(x-[1;1])<0.001
         break;
     end

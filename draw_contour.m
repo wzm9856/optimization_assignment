@@ -10,10 +10,10 @@ function []=draw_contour(q,p_history,contour_num,margin_mul)
     %   图
     
     % draw_contour(q,point_history);
-    if ~exist('contour_num','var') || isempty('contour_num')
+    if ~exist('contour_num','var') || isempty(contour_num)
         contour_num=50;
     end
-    if~exist('margin_mul','var') || isempty('margin_mul')
+    if~exist('margin_mul','var') || isempty(margin_mul)
         margin_mul=2;
     end
     
@@ -36,5 +36,6 @@ function []=draw_contour(q,p_history,contour_num,margin_mul)
     % 画出迭代点轨迹
     scatter(p_history(1,:),p_history(2,:),20,colormap(cool(size(p_history,2))),'filled')
     colormap default;
+    % 要不要把迭代点连起来呢
     plot(p_history(1,:),p_history(2,:),'-');
 end
