@@ -9,9 +9,9 @@ close all; clear;
 getq = @(s,g,G) g'*s+s'*G*s*0.5;  % 不包括常数项f
 
 n = 10;
-delta = 1000;
+delta = 1;
 delta_history = delta;
-x = 2*ones(2*n,1);
+x = 0*ones(2*n,1);
 point_history = x;
 rho_history = 0;
 s_history = zeros(2*n,1);
